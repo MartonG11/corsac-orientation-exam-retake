@@ -188,4 +188,30 @@ Example query:
 
 ### a, What's the difference between Array.prototype.forEach and Array.prototype.map?
 
+    The Array.prototype.forEach executes the given function once for each array element, so this not returns anything, it just calls the
+    provided function on each element in the array. So this callback is mutating the calling array.
+    
+    While the Array.prototype.map is creating a new array with the results of calling on every given element. So the map() method is also
+    calling the function for every element, but it returns in a new array.
+
+    The Array.prototype.map returns an array, but the Array.prototype.forEach doesn't.
+
 ### b, Write an example usage of the map and forEach function.
+
+    let my_numbers = [1, 2, 3, 4];
+
+    forEach:
+
+    my_numbers.forEach( (num, index) => {
+        return my_numbers[index] = num * 3;
+    });
+
+    result: my_numbers = [3, 6, 9, 12]    
+
+    map:
+
+    let triple = my_numbers.map(num => {
+        return num * 3;
+    });
+
+    result: doubled = [3, 6, 9, 12]
