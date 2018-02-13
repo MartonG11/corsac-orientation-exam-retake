@@ -50,8 +50,7 @@ app.get('/users', (req, res) => {
   
 // GET TICKETS
 app.get('/tickets', (req, res) => {
-     
-  if(req.query.manufacturer !== undefined){
+    if(req.query.manufacturer !== undefined){
       conn.query(`SELECT * FROM tickets WHERE tickets.manufacturer = ${req.query.manufacturer}`, (err, rows) => {
           if (err) {
               res.status(500);
@@ -89,6 +88,36 @@ app.get('/tickets', (req, res) => {
       res.json(rows);
       });
   }
+});
+
+// POST TICKETS
+app.post('/tickets', function(request, response){
+  conn.query('INSERT INTO tickets (id, reporter, manufacturer, serial_number, description, reported_at) VALUES (request.body.id, request.body.reporter, request.body.manufacturer, request.body.serial_number, request.body.reported_at)', (err, rows) => {
+  if (err) {
+    res.status(500);
+    res.json({
+      message: 'Problem to post a ticket',
+    });
+    throw err;
+  }
+
+  res.json(rows);
+});
+});
+
+// DELETE TICKETS
+app.post('/tickets/:id', function(request, response){
+  conn.query('INSERT INTO tickets (id, reporter, manufacturer, serial_number, description, reported_at) VALUES (request.body.id, request.body.reporter, request.body.manufacturer, request.body.serial_number, request.body.reported_at)', (err, rows) => {
+  if (err) {
+    res.status(500);
+    res.json({
+      message: 'Problem to post a ticket',
+    });
+    throw err;
+  }
+
+  res.json(rows);
+});
 });
 
 app.listen(PORT, () => {
