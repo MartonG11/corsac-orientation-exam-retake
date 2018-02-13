@@ -39,7 +39,7 @@ app.get('/users', (req, res) => {
       if (err) {
         res.status(500);
         res.json({
-          message: 'Problem to get the Users',
+          message: 'Cannot get the Users',
         });
         throw err;
       }
@@ -48,6 +48,49 @@ app.get('/users', (req, res) => {
     });
   });
   
+// GET TICKETS
+app.get('/tickets', (req, res) => {
+     
+  if(req.query.manufacturer !== undefined){
+      conn.query(`SELECT * FROM tickets WHERE tickets.manufacturer = ${req.query.manufacturer}`, (err, rows) => {
+          if (err) {
+              res.status(500);
+              res.json({
+                  message: `Problem to get the Tickets from ${req.query.manufacturer} manufacturer`,
+              });
+              throw err;
+          }
+      res.json(rows);
+      });
+  }
+   
+  else if(req.query.reporter !== undefined){
+      conn.query(`SELECT * FROM tickets WHERE tickets.reporter = ${req.query.reporter}`, (err, rows) => {
+          if (err) {
+              res.status(500);
+              res.json({
+                  message: `Problem to get the Tickets from ${req.query.reporter} reporter`,
+              });
+              throw err;
+          }
+      res.json(rows);
+      });
+  }
+       
+  else {
+      conn.query('SELECT * FROM tickets', (err, rows) => {
+          if (err) {
+              res.status(500);
+              res.json({
+                  message: 'Problem to get the Tickets',
+              });
+              throw err;
+          }
+      res.json(rows);
+      });
+  }
+});
+
 app.listen(PORT, () => {
     console.log(`App is up and running on port ${PORT}`);
   });
